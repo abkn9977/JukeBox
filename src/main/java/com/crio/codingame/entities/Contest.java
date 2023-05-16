@@ -1,4 +1,3 @@
-
 package com.crio.codingame.entities;
 
 import java.util.ArrayList;
@@ -31,7 +30,14 @@ public class Contest extends BaseEntity{
     //  1. There can be few unused imports, you will need to fix them to make the build pass.
     //  2. You can use "./gradlew build" to check if your code builds successfully.
 
-    private void validateQuestionList(List<Question> qList, Level contestLevel) throws InvalidContestException {
+    private void validateQuestionList(List<Question> qList, Level contestLevel) {
+        
+        for(Question q: qList){
+            if(q.getLevel() != contestLevel)
+                throw new InvalidContestException();
+        }
+
+        this.questions.addAll(qList);
     }
 
 
