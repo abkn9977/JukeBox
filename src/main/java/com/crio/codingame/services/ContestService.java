@@ -2,11 +2,14 @@ package com.crio.codingame.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.crio.codingame.dtos.ContestSummaryDto;
+import com.crio.codingame.dtos.ScoreDto;
 import com.crio.codingame.entities.Contest;
 import com.crio.codingame.entities.ContestStatus;
 import com.crio.codingame.entities.Level;
@@ -27,6 +30,7 @@ public class ContestService implements IContestService {
     private final IQuestionRepository questionRepository;
     private final IUserRepository userRepository;
     private final IUserService userService;
+    // private final Map<String, ScoreDto> scoreHistory;
 
     public ContestService(IContestRepository contestRepository,
             IQuestionRepository questionRepository, IUserRepository userRepository,
@@ -35,6 +39,7 @@ public class ContestService implements IContestService {
         this.questionRepository = questionRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+        // scoreHistory = new HashMap<>();
     }
 
     @Override
@@ -107,6 +112,9 @@ public class ContestService implements IContestService {
             userResultList.add(userNewScore);
             userRepository.save(userNewScore);
         });
+
+        // ScoreDto scoreDto = new ScoreDto(userName, totalScore, questions);
+
         contest.endContest();
         Contest endedContest = contestRepository.save(contest);
         return new ContestSummaryDto(endedContest, userResultList);
@@ -154,4 +162,32 @@ public class ContestService implements IContestService {
         return new User(user.getId(), user.getName(), newScore, user.getContests());
     }
 
+
+    public List<ScoreDto> getContestHistory(String contestId) {
+        List<ScoreDto> leaderBoard = new ArrayList<>();
+
+        Contest contest = contestRepository.findById(contestId)
+                .orElseThrow(() -> new ContestNotFoundException(
+                        "Cannot Run Contest. Contest for given id:" + contestId + " not found!"));
+
+        final List<User> allContestUser = userRepository.findAll().stream()
+                .filter(u -> u.checkIfContestExists(contest)).collect(Collectors.toList());
+        
+        if(allContestUser.isEmpty())
+            return leaderBoard;
+            
+        for(User user: allContestUser){
+            // ScoreDto scoreDto = new ScoreDto(user.getName(), user.getScore(), );
+            List<String> questions = user.getQuestionsByContest(contest).stream()
+                                     .map(q -> q.getId())
+                                     .collect(Collectors.toList());
+            ScoreDto sdt = new ScoreDto(user.getName(), user.getScore(), questions);
+
+            leaderBoard.add(sdt);
+        }
+
+        Collections.sort(leaderBoard);
+
+        return leaderBoard;
+    }
 }

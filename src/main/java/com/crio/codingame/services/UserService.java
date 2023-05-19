@@ -21,7 +21,7 @@ public class UserService implements IUserService {
     private final IContestRepository contestRepository;
 
     // autoincrement id of user starting from 1;
-    private int id = 0;
+    // private int id = 0;
 
     public UserService(IUserRepository userRepository, IContestRepository contestRepository) {
         this.userRepository = userRepository;
@@ -37,7 +37,7 @@ public class UserService implements IUserService {
             return null;
 
         // increment id
-        id++;
+        // id++;
 
         User user = new User(name, 1500);
 

@@ -6,5 +6,4 @@ public abstract class BaseEntity {
     public String getId() {
         return id;
     }
-    
 }

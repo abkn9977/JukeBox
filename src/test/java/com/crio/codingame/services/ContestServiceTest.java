@@ -1,5 +1,6 @@
 package com.crio.codingame.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -10,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import com.crio.codingame.dtos.ScoreDto;
 import com.crio.codingame.dtos.UserRegistrationDto;
 import com.crio.codingame.entities.Contest;
 import com.crio.codingame.entities.ContestStatus;
@@ -383,5 +386,49 @@ public class ContestServiceTest {
         verify(userRepositoryMock,times(1)).findAll();
         verify(contestRepositoryMock,times(1)).save(any(Contest.class));
         verify(userRepositoryMock,times(2)).save(any(User.class));
+    }
+
+    @DisplayName("Get History")
+    @Test
+    public void getContestHistory_ShouldReturnHistory(){
+        //arrange
+        List<Question> questionList = new ArrayList<Question>(){
+            {
+                add(new Question("1", "title1", Level.LOW, 100));
+                add(new Question("2", "title2", Level.LOW, 90));
+                add(new Question("3", "title3", Level.LOW, 80));
+            }
+        };
+
+        User contestCreator = new User("1","contestCreator1",67);
+        User user1 = new User("2","user1", 64);
+        User user2 = new User("3","user2",65);
+
+        Contest contest = new Contest("1","contestName",questionList,Level.LOW, contestCreator,ContestStatus.NOT_STARTED);
+        
+        contestCreator.addContestQuestion(contest, questionList);
+        user1.addContestQuestion(contest, questionList);
+        user2.addContestQuestion(contest, questionList);
+
+        contestCreator.addContest(contest);
+        user1.addContest(contest);
+        user2.addContest(contest);
+
+
+        List<String> questionIds = questionList.stream()
+                                   .map(q -> q.getId())
+                                   .collect(Collectors.toList());
+
+        ScoreDto sd1 = new ScoreDto(user1.getName(), user1.getScore(), questionIds);
+        ScoreDto sd2 = new ScoreDto(user2.getName(), user2.getScore(), questionIds);
+        ScoreDto sd3 = new ScoreDto(contestCreator.getName(), contestCreator.getScore(), questionIds);
+
+        List<ScoreDto> expectedResult = new ArrayList<>();
+        expectedResult.addAll(List.of(sd3, sd2, sd1));
+
+        when(contestRepositoryMock.findById("1")).thenReturn(Optional.of(contest));
+        when(userRepositoryMock.findAll()).thenReturn(List.of(contestCreator,user1,user2));
+
+        assertEquals(expectedResult, contestService.getContestHistory("1"));
     }
 }
