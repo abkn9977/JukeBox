@@ -1,6 +1,5 @@
 package com.crio.codingame.repositories;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +57,11 @@ public class UserRepository implements IUserRepository {
     @Override
     public void delete(User entity) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void deleteById(String id) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

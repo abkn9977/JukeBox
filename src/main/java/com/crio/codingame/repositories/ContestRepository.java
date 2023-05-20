@@ -1,6 +1,5 @@
 package com.crio.codingame.repositories;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,13 +60,11 @@ public class ContestRepository implements IContestRepository {
     @Override
     public void delete(Contest entity) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void deleteById(String id) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

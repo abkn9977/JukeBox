@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import com.crio.codingame.dtos.ScoreDto;
 import com.crio.codingame.dtos.UserRegistrationDto;
@@ -388,7 +387,7 @@ public class ContestServiceTest {
         verify(userRepositoryMock,times(2)).save(any(User.class));
     }
 
-    @DisplayName("Get History")
+    @DisplayName("Get Contest History")
     @Test
     public void getContestHistory_ShouldReturnHistory(){
         //arrange

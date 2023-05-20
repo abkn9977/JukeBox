@@ -2,9 +2,7 @@ package com.crio.codingame.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -39,7 +37,6 @@ public class ContestService implements IContestService {
         this.questionRepository = questionRepository;
         this.userRepository = userRepository;
         this.userService = userService;
-        // scoreHistory = new HashMap<>();
     }
 
     @Override

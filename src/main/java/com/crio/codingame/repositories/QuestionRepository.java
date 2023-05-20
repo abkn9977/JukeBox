@@ -1,6 +1,5 @@
 package com.crio.codingame.repositories;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +60,11 @@ public class QuestionRepository implements IQuestionRepository {
     @Override
     public void delete(Question entity) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void deleteById(String id) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
