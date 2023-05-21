@@ -99,7 +99,4 @@ public class User extends BaseEntity {
         return "User [id=" + id + ", contests=" + contests + ", name=" + name + ", score=" + score + "]";
     }
     
-    
-    
 }
-

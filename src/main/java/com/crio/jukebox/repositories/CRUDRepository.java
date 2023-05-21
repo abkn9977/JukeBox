@@ -1,4 +1,4 @@
-package com.crio.codingame.repositories;
+package com.crio.jukebox.repositories;
 
 import java.util.List;
 import java.util.Optional;
