@@ -17,7 +17,7 @@ application {
 
 group = 'com.crio'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = "1.9"
 
 repositories {
 	mavenCentral()
@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.11.1'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.5.1'
 }
 
 test {
@@ -50,3 +51,4 @@ test {
 	}
 }
 
+targetCompatibility = JavaVersion.VERSION_1_9

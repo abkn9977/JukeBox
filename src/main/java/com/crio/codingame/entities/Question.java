@@ -21,7 +21,6 @@ public class Question extends BaseEntity {
         this.score = score;
     }
 
-
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -1,9 +1,9 @@
 package com.crio.jukebox.entities;
 
 public abstract class ID {
-    private int id;
+    protected String id;
 
-    public int getId(){
+    public String getId(){
         return this.id;
     }
 }

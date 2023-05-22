@@ -33,11 +33,8 @@ public class UserService implements IUserService {
     @Override
     public User create(String name) {
 
-        if (name.isEmpty() || name == null)
+        if (name.isEmpty())
             return null;
-
-        // increment id
-        // id++;
 
         User user = new User(name, 1500);
 
@@ -118,7 +115,7 @@ public class UserService implements IUserService {
         }
 
         if (user.equals(contest.getCreator()))
-            throw new InvalidOperationException("Creater can't withdraw from contest");;
+            throw new InvalidOperationException("Creater can't withdraw from contest");
 
         user.deleteContest(contest);
         userRepository.save(user);
@@ -126,5 +123,4 @@ public class UserService implements IUserService {
         return new UserRegistrationDto(contest.getName(), user.getName(),
                 RegisterationStatus.NOT_REGISTERED);
     }
-
 }
