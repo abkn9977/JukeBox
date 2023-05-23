@@ -52,6 +52,8 @@ public class App {
 
                 line = reader.readLine();
             }
+
+            reader.close();
         } catch (NoSuchCommandException | IOException e) {
             throw new RuntimeException(e);
         }
