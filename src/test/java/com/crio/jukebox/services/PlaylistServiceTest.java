@@ -3,6 +3,7 @@ package com.crio.jukebox.services;
 import com.crio.jukebox.entities.Playlist;
 import com.crio.jukebox.entities.Song;
 import com.crio.jukebox.entities.User;
+import com.crio.jukebox.exceptions.InvalidOperationException;
 import com.crio.jukebox.exceptions.PlaylistNotFoundException;
 import com.crio.jukebox.exceptions.SongNotFoundException;
 import com.crio.jukebox.exceptions.UserNotFoundException;
@@ -117,5 +118,50 @@ public class PlaylistServiceTest {
 
         //assert
         assertThrows(PlaylistNotFoundException.class, () -> playlistService.deletePlaylist("1", "1"));
+    }
+
+    @Test
+    @DisplayName("Modify playlist: Add songs")
+    public void modifyPlaylist_shoudReturn_listWithNew_songs() throws UserNotFoundException, SongNotFoundException, PlaylistNotFoundException, InvalidOperationException {
+
+        //arrange
+        User user = new User("1", "user1");
+        Playlist expected = new Playlist("1", "pl1", user, new ArrayList<>(List.of("1", "2", "3")));
+        Song demoSong = new Song("song1", "g1", "a1", "art", List.of("a1", "a2"));
+        Playlist emptyList = new Playlist("1", "pl1", user, new ArrayList<>());
+
+        user.getPlaylists().add("1");
+
+        when(userRepository.findById(anyString())).thenReturn(user);
+        when(songRepository.findById(anyString())).thenReturn(demoSong);
+        when(playlistRepository.findById(anyString())).thenReturn(emptyList);
+
+        //act
+        Playlist actual = playlistService.modifyPlaylist("ADD-SONG", "1", "1", List.of("1", "2", "3"));
+
+        //assert
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Modify playlist: Delete songs")
+    public void modifyPlaylist_shoudReturn_listAfterDeleting_songs() throws UserNotFoundException, SongNotFoundException, PlaylistNotFoundException, InvalidOperationException {
+
+        //arrange
+        User user = new User("1", "user1");
+        Playlist expected = new Playlist("pl1", user, List.of("1", "2", "3"));
+        Song demoSong = new Song("song1", "g1", "a1", "art", List.of("a1", "a2"));
+
+        user.getPlaylists().add("1");
+        Playlist originalList = new Playlist("1", "pl1", user, new ArrayList<>(List.of("1", "2", "3", "4", "5")));
+
+        when(userRepository.findById(anyString())).thenReturn(user);
+        when(playlistRepository.findById(anyString())).thenReturn(originalList);
+
+        //act
+        Playlist actual = playlistService.modifyPlaylist("DELETE-SONG", "1", "1", List.of("4", "5"));
+
+        //assert
+        assertEquals(expected, actual);
     }
 }

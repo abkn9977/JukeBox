@@ -1,6 +1,7 @@
 package com.crio.jukebox.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Playlist extends ID{
     private String name;
@@ -20,6 +21,20 @@ public class Playlist extends ID{
     public Playlist(String id, String name, User user, List<String> songs){
         this(name, user, songs);
         this.id = id;
+    }
+
+    public void addSong(String songId){
+        if(!hasSong(songId))
+            this.songs.add(songId);
+    }
+
+    public void deleteSong(String songId){
+        this.songs.remove(songId);
+    }
+
+    //check if songs list have a song ID
+    public boolean hasSong(String songId){
+        return this.songs.contains(songId);
     }
 
     public String getName() {
@@ -46,8 +61,15 @@ public class Playlist extends ID{
         this.creator = creator;
     }
 
-    //checks if this playlist has song with given ID
-    public boolean hasSong(String id){
-        return this.songs.contains(id);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Playlist playlist = (Playlist) o;
+
+        if (!Objects.equals(name, playlist.name)) return false;
+        if (!Objects.equals(creator, playlist.creator)) return false;
+        return Objects.equals(songs, playlist.songs);
     }
 }
