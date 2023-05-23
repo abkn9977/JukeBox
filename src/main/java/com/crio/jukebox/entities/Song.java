@@ -70,6 +70,6 @@ public class Song extends ID{
     public String toString() {
         return "Song - " + this.getName() + "\n" +
                 "Album - " + this.getAlbumName() + "\n" +
-                "Artists - " + this.getFeaturedArtists() + "";
+                "Artists - " + String.join(",", this.getFeaturedArtists()) + "\n";
     }
 }

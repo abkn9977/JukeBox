@@ -72,4 +72,11 @@ public class Playlist extends ID{
         if (!Objects.equals(creator, playlist.creator)) return false;
         return Objects.equals(songs, playlist.songs);
     }
+
+    @Override
+    public String toString() {
+        return "Playlist ID - " + this.id + "\n" +
+                "Playlist Name - " + this.name + "\n" +
+                "Song IDs - " + String.join(" ", this.songs) + "\n";
+    }
 }

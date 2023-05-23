@@ -62,6 +62,7 @@ public class JukeBox implements IJukeBox{
             throw new PlaylistNotFoundException("User has no active playlist");
 
         List<String> songs = this.active.getSongs();
+        Song song = null;
 
         //if request is to play song with given ID
         if(action.matches("[0-9]+")){

@@ -26,7 +26,6 @@ public class AppTest {
     @Test
     @DisplayName("Integration Test #1")
     void runTest1(){
-
         //Arrange
         List<String> arguments= new ArrayList<>(List.of("INPUT_FILE=jukebox-input.txt"));
 
@@ -66,17 +65,19 @@ public class AppTest {
         "Album - No.6 Collaborations Project\n"+
         "Artists - Ed Sheeran,Chance The Rapper,PnB Rock\n"+
         "Given song id is not a part of the active playlist";
+
+
         //Act
         App.run(arguments);
 
+        String actual = outputStreamCaptor.toString().trim();
+
         //Assert
-        Assertions.assertEquals(expectedOutput,outputStreamCaptor.toString().trim());
- 
+        Assertions.assertEquals(expectedOutput, actual);
 	}
 
     @AfterEach
     public void tearDown() {
         System.setOut(standardOut);
     }
-
 }
